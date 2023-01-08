@@ -11,7 +11,7 @@ namespace CSVExporter
         /// Provide path to .vtt or .srt subtitle files in SUBTITLES_INPUT_DIR, 
         /// or leave it blank and provide the path as a command-line argument:
         /// </summary>
-        public static readonly string SUBTITLES_INPUT_DIR = @"C:\Users\chris\development\yt-dlp\output";
+        public static readonly string SUBTITLES_INPUT_DIR = @"";
 
 
         public static async Task Main(string[] args)

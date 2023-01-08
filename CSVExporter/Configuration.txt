@@ -1,1 +1,1 @@
-﻿SUBTITLES_INPUT_DIR="C:\Users\chris\development\yt-dlp\output\Tingles & Triggers ASMR PODCAST"
+﻿SUBTITLES_INPUT_DIR="C:\Users\path\to\input\srt\files"

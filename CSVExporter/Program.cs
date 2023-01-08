@@ -13,41 +13,25 @@ namespace CSVExporter
         /// </summary>
         public static string SUBTITLES_INPUT_DIR => GetConfigVariable(@"SUBTITLES_INPUT_DIR");
 
-        private static string GetConfigVariable(string v)
-        {
-            var lines = File.ReadAllLines("../../../" + "Configuration.txt")
-                .Where(line => !string.IsNullOrEmpty(line) && line.Contains('='));
-            
-            var match = lines.FirstOrDefault(line => string.Equals(line.Split('=').FirstOrDefault(), v));
-            
-            return string.IsNullOrEmpty(match) ? string.Empty : match.Split('=')[1].Trim('"');
-        }
-
 
         public static async Task Main(string[] args)
         {
             string? path = SUBTITLES_INPUT_DIR ?? args.FirstOrDefault();
-            if (string.IsNullOrEmpty(path))
-            {
-                throw new ArgumentNullException("No path provided to the .vtt or .srt file(s). Provide the direcory as a command-line argument or in the read-only field inside Program.cs");
-            }
-            if (!Directory.Exists(path))
-            {
-                throw new ArgumentNullException($"Invalid path - path does not exist: \"{path}\"");
-            }
-            await ExportCSV(path);
+            ValidatePath(path);
+            await ExportCSV(path, recurssive: true);
 
             Console.WriteLine("exit");
         }
 
-
-        public static async Task ExportCSV(string path)
+        public static async Task ExportCSV(string path, bool recurssive = false)
         {
             Console.WriteLine("Exporting CSV => Start...");
             string[] headers = new string[] { "Title", "Channel", "Date", "TimestampStart", "TimestampEnd", "Caption", "TimestamppedURL", "\n"};
             
             var csv = new StringBuilder();
-            var records = GetSubtitleRecords(path);
+
+            var records = (recurssive ? GetSubtitleRecordsMany(path) : GetSubtitleRecords(path)).ToList();
+            
             csv.AppendJoin(",", headers);
             for (var i = 0; i < records.Count; i++)
             {
@@ -88,6 +72,20 @@ namespace CSVExporter
             }
 
             Console.WriteLine("Exporting CSV => Done.");
+        }
+
+        public static IEnumerable<SubtitleRecordDto> GetSubtitleRecordsMany(string path)
+        {
+            var recordsAll = Directory.EnumerateDirectories(path).SelectMany(directory =>
+            {
+                Console.WriteLine("Getting .srt files from directory:" + directory);
+                var records = GetSubtitleRecords(directory);
+                Console.WriteLine("\t => " + records.Count);
+
+                return records;
+            });
+
+            return recordsAll;
         }
 
         public static List<SubtitleRecordDto> GetSubtitleRecords(string path)
@@ -144,9 +142,30 @@ namespace CSVExporter
             return records;
         }
 
-        private static string ParseDateString(string dateString)
+        private static string GetConfigVariable(string v)
         {
-            return DateTime.ParseExact(dateString, "yyyyMMdd", CultureInfo.InvariantCulture).ToShortDateString();
+            var lines = File.ReadAllLines("../../../" + "Configuration.txt")
+                .Where(line => !string.IsNullOrEmpty(line) && line.Contains('='));
+
+            var match = lines.FirstOrDefault(line => string.Equals(line.Split('=').FirstOrDefault(), v));
+
+            return string.IsNullOrEmpty(match) ? string.Empty : match.Split('=')[1].Trim('"');
         }
+
+        private static void ValidatePath(string? path)
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                throw new ArgumentNullException("No path provided to the .vtt or .srt file(s). Provide the direcory as a command-line argument or in the read-only field inside Program.cs");
+            }
+
+            if (!Directory.Exists(path))
+            {
+                throw new ArgumentNullException($"Invalid path - path does not exist: \"{path}\"");
+            }
+        }
+
+        private static string ParseDateString(string dateString) 
+            => DateTime.ParseExact(dateString, "yyyyMMdd", CultureInfo.InvariantCulture).ToShortDateString();
     }
 }

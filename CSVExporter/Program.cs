@@ -8,10 +8,20 @@ namespace CSVExporter
     public class Program
     {
         /// <summary>
-        /// Provide path to .vtt or .srt subtitle files in SUBTITLES_INPUT_DIR, 
+        /// Provide path to .vtt or .srt subtitle files in SUBTITLES_INPUT_DIR,
         /// or leave it blank and provide the path as a command-line argument:
         /// </summary>
-        public static readonly string SUBTITLES_INPUT_DIR = @"";
+        public static string SUBTITLES_INPUT_DIR => GetConfigVariable(@"SUBTITLES_INPUT_DIR");
+
+        private static string GetConfigVariable(string v)
+        {
+            var lines = File.ReadAllLines("../../../" + "Configuration.txt")
+                .Where(line => !string.IsNullOrEmpty(line) && line.Contains('='));
+            
+            var match = lines.FirstOrDefault(line => string.Equals(line.Split('=').FirstOrDefault(), v));
+            
+            return string.IsNullOrEmpty(match) ? string.Empty : match.Split('=')[1].Trim('"');
+        }
 
 
         public static async Task Main(string[] args)
@@ -64,7 +74,6 @@ namespace CSVExporter
                 Console.WriteLine(contents.Length > 1000 ? contents.Substring(0, 1000) : contents);
 
                 await File.WriteAllTextAsync("../../../" + "db-debug.csv", contents);
-
             };
 
             try
@@ -104,16 +113,15 @@ namespace CSVExporter
                 {
                     var parts = item.Split("\n");
 
-                    if (parts.Length < 3 || parts.Any(part => string.IsNullOrEmpty(part)) || parts[2] == last_text)
-                    {
+                    if (parts.Length < 3 || parts.Any(p => string.IsNullOrEmpty(p)) || parts[2] == last_text)
                         continue;
-                    }
 
                     var timestampComponents = parts[1].Split(@" --> ");
                     var startTimestamp = timestampComponents[0].Split(',')[0];
                     var endTimestamp = timestampComponents[1].Split(',')[0];
                     int startSeconds = (int)TimeSpan.Parse(startTimestamp).TotalSeconds;
                     string text = parts[2];
+                    last_text = text;
 
                     records.Add(new SubtitleRecordDto()
                     {

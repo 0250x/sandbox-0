@@ -1,0 +1,15 @@
+C:\Users\chris\source\repos\sandbox-0\sandbox-0\CSVExporter\bin\Debug\net6.0\CSVExporter.exe
+C:\Users\chris\source\repos\sandbox-0\sandbox-0\CSVExporter\bin\Debug\net6.0\CSVExporter.deps.json
+C:\Users\chris\source\repos\sandbox-0\sandbox-0\CSVExporter\bin\Debug\net6.0\CSVExporter.runtimeconfig.json
+C:\Users\chris\source\repos\sandbox-0\sandbox-0\CSVExporter\bin\Debug\net6.0\CSVExporter.dll
+C:\Users\chris\source\repos\sandbox-0\sandbox-0\CSVExporter\bin\Debug\net6.0\CSVExporter.pdb
+C:\Users\chris\source\repos\sandbox-0\sandbox-0\CSVExporter\obj\Debug\net6.0\CSVExporter.csproj.AssemblyReference.cache
+C:\Users\chris\source\repos\sandbox-0\sandbox-0\CSVExporter\obj\Debug\net6.0\CSVExporter.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\chris\source\repos\sandbox-0\sandbox-0\CSVExporter\obj\Debug\net6.0\CSVExporter.AssemblyInfoInputs.cache
+C:\Users\chris\source\repos\sandbox-0\sandbox-0\CSVExporter\obj\Debug\net6.0\CSVExporter.AssemblyInfo.cs
+C:\Users\chris\source\repos\sandbox-0\sandbox-0\CSVExporter\obj\Debug\net6.0\CSVExporter.csproj.CoreCompileInputs.cache
+C:\Users\chris\source\repos\sandbox-0\sandbox-0\CSVExporter\obj\Debug\net6.0\CSVExporter.dll
+C:\Users\chris\source\repos\sandbox-0\sandbox-0\CSVExporter\obj\Debug\net6.0\refint\CSVExporter.dll
+C:\Users\chris\source\repos\sandbox-0\sandbox-0\CSVExporter\obj\Debug\net6.0\CSVExporter.pdb
+C:\Users\chris\source\repos\sandbox-0\sandbox-0\CSVExporter\obj\Debug\net6.0\CSVExporter.genruntimeconfig.cache
+C:\Users\chris\source\repos\sandbox-0\sandbox-0\CSVExporter\obj\Debug\net6.0\ref\CSVExporter.dll

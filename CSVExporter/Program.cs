@@ -62,6 +62,9 @@ namespace CSVExporter
                 await File.WriteAllTextAsync(csvFilePath, contents);
                 await File.WriteAllTextAsync(mostRecent, contents);
                 Console.WriteLine(contents.Length > 1000 ? contents.Substring(0, 1000) : contents);
+
+                await File.WriteAllTextAsync("../../../" + "db-debug.csv", contents);
+
             };
 
             try
